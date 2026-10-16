@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books Management</title>
+</head>
+<body>
+    <h1>Books Management System</h1>
+
+    <a href="{% url 'books_list' %}">
+        Add Book
+    </a>
+
+    <hr>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.price }}</td>
+            <td>
+                <a href="{% url 'update_book' book.id %}">
+                    Edit
+                </a>
+
+                <form method="POST"
+                      action="{% url 'delete_book' book.id %}"
+                      style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No books found</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
